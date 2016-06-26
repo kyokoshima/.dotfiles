@@ -26,6 +26,9 @@ if dein#check_install()
   call dein#install()
 endif
 
+" plugin settings
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
+
 
 set nocompatible
 syntax enable
