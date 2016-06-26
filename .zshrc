@@ -1,75 +1,100 @@
-# 色有効
-autoload -U colors
-colors
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
 
-# 色を定義
-local GREEN=$'%{\e[1;32m%}'
-local BLUE=$'%{\e[1;34m%}'
-local DEFAULT=$'%{\e[1;m%}'
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+#ZSH_THEME="robbyrussell"
+ZSH_THEME="amuse"
 
-# 通常のプロンプト
-PROMPT=$BLUE'[%n]%# '$WHITE
-# 右側のプロンプト。ここでカレントディレクトリを出す。
-RPROMPT=$GREEN'[%~]'$WHITE
-setopt transient_rprompt
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 
-###############
-# ヒストリ関連
-###############
-# 履歴の保存先
-HISTFILE=$HOME/.zsh-history
-## メモリに展開する履歴の数
-# HISTSIZE=10000
-## 保存する履歴の数
-SAVEHIST=10000
- 
-## コマンドラインの先頭がスペースで始まる場合ヒストリに追加しない
-setopt hist_ignore_space
-## history (fc -l) コマンドをヒストリリストから取り除く。
-setopt hist_no_store
-## 直前と同じコマンドをヒストリに追加しない
-setopt hist_ignore_dups
-## ヒストリを呼び出してから実行する間に一旦編集
-setopt hist_verify
-## zsh の開始, 終了時刻をヒストリファイルに書き込む
-setopt extended_history
-## 余分な空白は詰めて記録
-setopt hist_reduce_blanks  
-## 古いコマンドと同じものは無視 
-setopt hist_save_no_dups
-## ヒストリに追加されるコマンド行が古いものと同じなら古いものを削除
-setopt hist_ignore_all_dups
-## 補完時にヒストリを自動的に展開         
-setopt hist_expand
- 
-## Screenでのコマンド共有用
-## シェルを横断して.zshhistoryに記録
-setopt inc_append_history
-## ヒストリを共有
-setopt share_history
- 
-###################
-# ディレクトリ変更
-###################
-## ディレクトリ名だけで cd
-setopt auto_cd
-## cd 時に自動で push
-setopt auto_pushd
-## 同じディレクトリを pushd しない
-setopt pushd_ignore_dups
- 
-############
-# 補間関連
-############
-## 補完機能の有効
-autoload -U compinit
-compinit
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
 
-#autoload predict-on
-#predict-on
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
 
-export COMSPEC=/cygdrive/c/Windows/System32/cmd.exe
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to disable command auto-correction.
+# DISABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/heroku/bin:/Users/kenichi/.rbenv/shims:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:"
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+eval "$(rbenv init - zsh)"
 
 alias git=hub
+fpath=(~/.zsh/completions $fpath)
+autoload -U compinit && compinit
+
+function peco-select-history() {
+  local tac
+  if which tac > /dev/null; then
+    tac="tac"
+  else
+    tac="tail -r"
+  fi
+  BUFFER=$(\history -n 1 | \
+    eval $tac | \
+    peco --query "$LBUFFER")
+  CURSOR=$#BUFFER
+  zle clear-screen
+}
+zle -N peco-select-history
+bindkey '^r' peco-select-history
+HISTFILE=~/.zsh_history
+HISTSIZE=100000
+SAVEHIST=100000

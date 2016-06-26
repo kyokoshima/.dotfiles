@@ -1,75 +1,46 @@
-if has('vim_starting')
-   set nocompatible               " Be iMproved
+let s:dein_dir = expand('~/.cache/dein')
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
-   " Required:
-   set runtimepath+=~/.vim/bundle/neobundle.vim/
- endif
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+endif
 
- " Required:
- call neobundle#begin(expand('~/.vim/bundle/'))
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
 
- " Let NeoBundle manage NeoBundle
- " Required:
- NeoBundleFetch 'Shougo/neobundle.vim'
+  let g:rc_dir    = expand('~/.vim/rc')
+  let s:toml      = g:rc_dir . '/dein.toml'
+  let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
 
- " My Bundles here:
- NeoBundle 'Shougo/neosnippet.vim'
- NeoBundle 'Shougo/neosnippet-snippets'
- NeoBundle 'tpope/vim-fugitive'
- NeoBundle 'kien/ctrlp.vim'
- NeoBundle 'flazz/vim-colorschemes'
- NeoBundle 'Shougo/unite.vim'
-""" unite.vim
-" 入力モードで開始する
-" let g:unite_enable_start_insert=1
-" バッファ一覧
-" nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
-" ファイル一覧
-nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-" レジスタ一覧
-nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
-" 最近使用したファイル一覧
-nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
-" 常用セット
-nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
-" 全部乗せ
-nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
-" ウィンドウを分割して開く
-au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-" ウィンドウを縦に分割して開く
-au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-" ESCキーを2回押すと終了する
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
+  call dein#load_toml(s:toml,       {'lazy': 0})
+  call dein#load_toml(s:lazy_toml,  {'lazy': 1})
 
-NeoBundle 'Shougo/vimfiler'
+  call dein#end()
+  call dein#save_state()
+endif
 
-NeoBundle 'scrooloose/nerdtree'
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
-" You can specify revision/branch/tag.
-NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
+if dein#check_install()
+  call dein#install()
+endif
 
-NeoBundle 'soramugi/auto-ctags.vim'
-let g:auto_ctags = 1
 
-call neobundle#end()
-
- " Required:
- filetype plugin indent on
-
- " If there are uninstalled bundles found on startup,
- " this will conveniently prompt you to install them.
- NeoBundleCheck
-
+set nocompatible
+syntax enable
 set tabstop=2
 set shiftwidth=2
-set noexpandtab
 set softtabstop=0
-syntax enable
+set noexpandtab
+set backspace=indent,eol,start
+if stridx($TERM, "xterm-256color") >= 0
+ colorscheme desert256
+else
+ colorscheme desert
+endif
+set nu
 set mouse=a
 set ttymouse=xterm2
-set backspace=indent,eol,start
-set nu
 set ruler
+
