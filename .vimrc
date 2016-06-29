@@ -26,9 +26,6 @@ if dein#check_install()
   call dein#install()
 endif
 
-" plugin settings
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
-
 
 set nocompatible
 syntax enable
@@ -46,4 +43,4 @@ set nu
 set mouse=a
 set ttymouse=xterm2
 set ruler
-
+set cindent

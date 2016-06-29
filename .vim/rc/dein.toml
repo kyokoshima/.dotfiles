@@ -2,6 +2,10 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
+repo = 'Shougo/vimproc.vim'
+build = 'make'
+
+[[plugins]]
 repo = 'Shougo/neosnippet.vim'
 
 [[plugins]]
@@ -18,3 +22,30 @@ repo ='flazz/vim-colorschemes'
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'
+hook_add = '''
+	nnoremap <silent><C-e> :NERDTreeToggle<CR>
+'''
+
+[[plugins]]
+repo = 'elzr/vim-json'
+on_ft = 'json'
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]]
+repo = 'mattn/emmet-vim'
+hook_add = 'imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")'
+
+# for Laravel
+
+[[plugins]]
+repo = 'm2mdas/phpcomplete-extended'
+
+# [[plugins]]
+# repo = 'm2mdas/phpcomplete-extended-laravel'
+# depends = ['phpcomplete-extended']
+
+[[plugins]]
+repo = 'jwalton512/vim-blade'
