@@ -42,56 +42,12 @@ repo = 'Shougo/unite.vim'
 depends = 'neomru.vim'
 hook_source = 'source ~/.vim/rc/plugins/unite.rc.vim'
 hook_add = '''
-  nnoremap <silent> ;b
-        \ :<C-u>Unite -buffer-name=build`tabpagenr()` -no-quit build<CR>
-  nnoremap <silent> ;o
-        \ :<C-u>Unite outline -no-start-insert -resume<CR>
-  nnoremap <silent> <C-k>
-        \ :<C-u>Unite change jump<CR>
-  nnoremap <silent> ;g
-        \ :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
-        \ -auto-preview -no-split -no-empty -resume<CR>
-  nnoremap <silent> ;r
-        \ :<C-u>Unite -buffer-name=register
-        \ -default-action=append register history/yank<CR>
-  xnoremap <silent> ;r
-        \ d:<C-u>Unite -buffer-name=register
-        \ -default-action=append register history/yank<CR>
-  nnoremap <silent> <C-t>
-        \ :<C-u>Unite -auto-resize -select=`tabpagenr()-1` tab<CR>
-  nnoremap <silent> <C-w>
-        \ :<C-u>Unite -force-immediately window:all:no-current<CR>
-  nnoremap <silent> [Window]s
-        \ :<C-u>Unite -buffer-name=files -no-split -multi-line -unique -silent
-        \ jump_point file_point file_mru
-        \ `finddir('.git', ';') != '' ? 'file_rec/git' : ''`
-        \ buffer_tab:- file file/new<CR>
-  nnoremap <silent> [Window]<Space>
-        \ :<C-u>Unite -buffer-name=files -path=~/.vim/rc file_rec<CR>
-  nnoremap <silent> [Window]n
-        \ :<C-u>Unite -start-insert -default-action=lcd dein<CR>
-  nnoremap <silent> [Window]g
-        \ :<C-u>Unite -start-insert ghq<CR>
-  nnoremap <silent> [Space]ft
-        \ :<C-u>Unite -start-insert filetype filetype/new<CR>
-  " Tag jump.
-  nnoremap <silent><expr> tt  &filetype == 'help' ?  "g\<C-]>" :
-        \ ":\<C-u>UniteWithCursorWord -buffer-name=tag -immediately
-        \  tag tag/include\<CR>"
-  nnoremap <silent><expr> tp  &filetype == 'help' ?
-        \ ":\<C-u>pop\<CR>" : ":\<C-u>Unite jump\<CR>"
-  " Execute help.
-  nnoremap <silent> <C-h>  :<C-u>Unite -buffer-name=help help<CR>
-  " Search.
-  nnoremap <silent> /
-        \ :<C-u>Unite -buffer-name=search%`bufnr('%')`
-        \ -start-insert line:forward:wrap<CR>
-  nnoremap <silent> *
-        \ :<C-u>UniteWithCursorWord -buffer-name=search%`bufnr('%')`
-        \ line:forward:wrap<CR>
-  nnoremap [Alt]/       /
-  nnoremap [Alt]?       ?
-  nnoremap <silent> n
-        \ :<C-u>UniteResume search%`bufnr('%')`
-        \  -no-start-insert -force-redraw<CR>
+let g:unite_enable_start_insert=1
+let g:unite_source_history_yank_enable =1
+let g:unite_source_file_mru_limit = 200
+nnoremap <silent> ,uy :<C-u>Unite history/yank<CR>
+nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
+nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> ,uu :<C-u>Unite file_mru buffer<CR>
 '''
