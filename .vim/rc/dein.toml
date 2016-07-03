@@ -36,7 +36,10 @@ on_ft = 'toml'
 
 [[plugins]]
 repo = 'mattn/emmet-vim'
-hook_add = 'imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")'
+hook_add = '''
+	let g:user_emmet_expandabbr_key='<Tab>'
+	imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+'''
 
 # for Laravel
 
