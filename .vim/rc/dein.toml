@@ -3,14 +3,35 @@ repo = 'Shougo/dein.vim'
 
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
-build = 'make'
+hook_post_update = '''
+	if executable('gmake')
+		let cmd = 'gmake'
+	else
+		let cmd = 'make'
+	endif
+	let g:dein#plugin.build = cmd
+'''
+[[plugins]]
+repo = 'Shougo/vimshell.vim'
+depends = ['vimproc.vim']
+hook_add = '''
+ 	nnoremap <Space>v :VimShell<CR>       
+'''     
 
 [[plugins]]
 repo = 'Shougo/neosnippet.vim'
-
 [[plugins]]
 repo = 'Shougo/neosnippet-snippets'
 
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+	nnoremap <Space>n :NERDTreeToggle<CR>
+'''
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 
@@ -21,63 +42,74 @@ repo = 'kien/ctrlp.vim'
 repo ='flazz/vim-colorschemes'
 
 [[plugins]]
-repo = 'scrooloose/nerdtree'
-hook_add = '''
-	nnoremap <silent><C-e> :NERDTreeToggle<CR>
-'''
-
-[[plugins]]
-repo = 'elzr/vim-json'
-on_ft = 'json'
-
-[[plugins]]
-repo = 'cespare/vim-toml'
-on_ft = 'toml'
-
-[[plugins]]
 repo = 'mattn/emmet-vim'
 hook_add = '''
-	let g:user_emmet_expandabbr_key='<Tab>'
-	imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+let g:user_emmet_expandabbr_key='<Tab>'
+imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 '''
+
+[[plugins]]
+repo = 'Shougo/unite.vim'
+depends = 'neomru.vim'
+hook_add = '''
+let g:unite_enable_start_insert=1
+let g:unite_source_history_yank_enable =1
+let g:unite_source_file_mru_limit = 200
+nnoremap <Space>uy :<C-u>Unite history/yank<CR>
+nnoremap <Space>ub :<C-u>Unite buffer<CR>
+nnoremap <Space>uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <Space>ur :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <Space>uu :<C-u>Unite file_mru buffer<CR>
+'''
+
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+on_if = 1
+
+
+# [[plugins]]
+# repo = 'elzr/vim-json'
+# on_ft = 'json'
+
+
 
 # for Laravel
 
-[[plugins]]
-repo = 'm2mdas/phpcomplete-extended'
+#[[plugins]]
+#repo = 'm2mdas/phpcomplete-extended'
 
 # [[plugins]]
 # repo = 'm2mdas/phpcomplete-extended-laravel'
 # depends = ['phpcomplete-extended']
 
-[[plugins]]
-repo = 'jwalton512/vim-blade'
+# [[plugins]]
+# repo = 'jwalton512/vim-blade'
 
-[[plugins]]
-repo = 'itchyny/lightline.vim'
+# [[plugins]]
+# repo = 'itchyny/lightline.vim'
 
-[[plugins]]
-repo = 'tomasr/molokai'
+# [[plugins]]
+# repo = 'tomasr/molokai'
 
-[[plugins]]
-repo = 'nathanaelkane/vim-indent-guides'
+# [[plugins]]
+# repo = 'nathanaelkane/vim-indent-guides'
 
-[[plugins]]
-repo = 'bronson/vim-trailing-whitespace'
+# [[plugins]]
+# repo = 'bronson/vim-trailing-whitespace'
 
-[[plugins]]
-repo = 'tomtom/tcomment_vim'
+# [[plugins]]
+# repo = 'tomtom/tcomment_vim'
 
-[[plugins]]
-repo = 'othree/html5.vim'
+# [[plugins]]
+# repo = 'othree/html5.vim'
 
-[[plugins]]
-repo = 'hail2u/vim-css3-syntax'
+# [[plugins]]
+# repo = 'hail2u/vim-css3-syntax'
 
-[[plugins]]
-repo = 'jelera/vim-javascript-syntax'
+# [[plugins]]
+# repo = 'jelera/vim-javascript-syntax'
 
-[[plugins]]
-repo = 'hokaccha/vim-html5validator'
+# [[plugins]]
+# repo = 'hokaccha/vim-html5validator'
 
 

@@ -17,6 +17,7 @@ fi
 ln -s ${DIR}/.zsh ~/.zsh
 if [ -e ~/.zshrc ]; then
 	mkdir -p ${BACKUP_DIR}
+	mv ~/.zshrc ${BACKUP_DIR}/.zshrc
 fi
-ln -s ${DIR}/.zshrc ${BACKUP_DIR}/.zshrc
+ln -s ${DIR}/.zshrc ~/.zshrc
 
